@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "express": "^5.1.0",
-    "lab_3_chat_bot": "file:..",
     "leaflet": "^1.9.4",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
