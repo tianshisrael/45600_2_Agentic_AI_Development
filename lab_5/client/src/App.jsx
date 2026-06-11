@@ -7,6 +7,7 @@ import {
   splitItinerary,
   ToolResultBody,
 } from './toolDisplay.jsx';
+import { FlightCard } from './flightDisplay.jsx';
 
 const API_BASES = ['', 'http://localhost:3001'];
 
@@ -423,30 +424,10 @@ function App() {
             ) : (
             <div className="flights-list">
               {flights.map((flight, index) => (
-                <div key={index} className="flight-card">
-                  <div className="flight-airline">{flight.airline ?? '—'}</div>
-                  <div className="flight-route">
-                    <span className="flight-departure">{flight.departure ?? '—'}</span>
-                    <span className="flight-arrow">→</span>
-                    <span className="flight-arrival">{flight.arrival ?? '—'}</span>
-                  </div>
-                  <div className="flight-details">
-                    <span className="flight-price">
-                      {flight.priceNis ? (
-                        <>
-                          <strong className="flight-price-nis">{flight.priceNis}</strong>
-                          {flight.priceUsd && (
-                            <span className="flight-price-usd"> ({flight.priceUsd})</span>
-                          )}
-                        </>
-                      ) : (
-                        flight.price ?? '—'
-                      )}
-                    </span>
-                    <span className="flight-duration">{flight.duration ?? '—'}</span>
-                    <span className="flight-stops">{flight.stops ?? '—'}</span>
-                  </div>
-                </div>
+                <FlightCard
+                  key={`${flight.airline ?? ''}-${flight.flightNumber ?? ''}-${flight.departureDate ?? ''}-${flight.departureTime ?? ''}-${index}`}
+                  flight={flight}
+                />
               ))}
             </div>
             )}

@@ -45,8 +45,11 @@ function getWebSearch() {
   const apiKey = process.env.TAVILY_API_KEY?.trim();
   if (!apiKey) return null;
   webSearchInstance = new TavilySearch({
-    maxResults: 5,
+    maxResults: 8,
     topic: "general",
+    searchDepth: "advanced",
+    includeAnswer: "advanced",
+    chunksPerSource: 3,
     tavilyApiKey: apiKey,
   });
   return webSearchInstance;
@@ -93,6 +96,86 @@ export async function fetchCountryFlag(place) {
   return (await tryFetch("name")) ?? (await tryFetch("alpha"));
 }
 
+function todayIso() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function addDaysIso(baseIso, days) {
+  const d = new Date(`${baseIso}T12:00:00Z`);
+  d.setUTCDate(d.getUTCDate() + days);
+  return d.toISOString().slice(0, 10);
+}
+
+/** Dates to try: user date first, then today and next days. */
+function candidateSearchDates(requestedDate) {
+  const ordered = [];
+  if (requestedDate?.trim()) ordered.push(requestedDate.trim());
+  const today = todayIso();
+  for (let i = 0; i < 14; i++) ordered.push(addDaysIso(today, i));
+  return [...new Set(ordered)];
+}
+
+function buildFlightQuery(origin, destination, date) {
+  return `all direct and nonstop flights ${origin} to ${destination} on ${date} every airline flight number departure arrival time price`;
+}
+
+function buildConnectingFlightQuery(origin, destination, date) {
+  return `${origin} to ${destination} ${date} connecting flights 1-stop options Turkish Airlines Emirates Lufthansa Qatar flight numbers departure arrival prices`;
+}
+
+function mergeFlightSearchParts(parts, date) {
+  const answers = parts.map((p) => p.answer).filter(Boolean);
+  const results = [];
+  const seenUrls = new Set();
+  for (const part of parts) {
+    for (const row of part.results ?? []) {
+      if (row.url && seenUrls.has(row.url)) continue;
+      if (row.url) seenUrls.add(row.url);
+      results.push(row);
+    }
+  }
+  return {
+    answer: answers.join("\n\n---\n\n"),
+    results,
+    searchedDate: date,
+    query: parts.map((p) => p.query).filter(Boolean).join(" | "),
+  };
+}
+
+function flightSearchText(data) {
+  const answer = data?.answer ?? "";
+  const snippets = (data?.results ?? []).map((r) => `${r.title ?? ""} ${r.content ?? ""}`).join(" ");
+  return `${answer} ${snippets}`;
+}
+
+function hasScheduleData(data) {
+  const text = flightSearchText(data);
+  return /\b\d{1,2}:\d{2}\b/.test(text) && /\b([A-Z]{2})\s?\d{1,4}\b|flight/i.test(text);
+}
+
+async function invokeFlightSearch(webSearch, query) {
+  const raw = await webSearch.invoke({ query });
+  if (typeof raw === "string") {
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return { answer: raw, results: [] };
+    }
+  }
+  return raw;
+}
+
+async function searchFlightsForDate(webSearch, origin, destination, date) {
+  const queries = [
+    buildFlightQuery(origin, destination, date),
+    buildConnectingFlightQuery(origin, destination, date),
+  ];
+  const parts = await Promise.all(
+    queries.map(async (query) => ({ query, ...(await invokeFlightSearch(webSearch, query)) })),
+  );
+  return mergeFlightSearchParts(parts, date);
+}
+
 const flightFinder = tool(
   async ({ origin, destination, date }) => {
     const webSearch = getWebSearch();
@@ -102,20 +185,50 @@ const flightFinder = tool(
           "Flight search unavailable: set TAVILY_API_KEY in lab_5/.env (https://app.tavily.com).",
       });
     }
-    const query = date
-      ? `flights from ${origin} to ${destination} on ${date}`
-      : `flights from ${origin} to ${destination}`;
-    const results = await webSearch.invoke({ query });
-    return typeof results === "string" ? results : JSON.stringify(results);
+
+    const requestedDate = date?.trim() || null;
+    const dates = candidateSearchDates(requestedDate);
+    let lastResult = null;
+
+    for (let i = 0; i < dates.length; i++) {
+      const searchDate = dates[i];
+      try {
+        const data = await searchFlightsForDate(webSearch, origin, destination, searchDate);
+        lastResult = data;
+        if (hasScheduleData(data)) {
+          const usedFallback = Boolean(requestedDate && searchDate !== requestedDate);
+          return JSON.stringify({
+            ...data,
+            requestedDate,
+            searchedDate: searchDate,
+            usedFallback,
+            fallbackNote: usedFallback
+              ? `No schedule found for ${requestedDate}; showing nearest available date ${searchDate}.`
+              : null,
+          });
+        }
+      } catch (err) {
+        lastResult = { error: err.message || String(err), searchedDate: searchDate };
+      }
+      if (i >= 6) break;
+    }
+
+    return JSON.stringify({
+      ...(lastResult ?? {}),
+      requestedDate,
+      searchedDate: lastResult?.searchedDate ?? requestedDate ?? todayIso(),
+      usedFallback: Boolean(requestedDate && lastResult?.searchedDate !== requestedDate),
+      warning: "Limited schedule data found for requested and nearby dates.",
+    });
   },
   {
     name: "flight_finder",
     description:
-      "Search for flight options between cities. Use this to find available flights, prices, and airlines when planning travel.",
+      "Search all flight options between cities for a specific travel date (YYYY-MM-DD). If no schedule exists for that date, automatically searches nearest dates from today. Returns flight numbers, departure/arrival dates and times, prices, and airlines.",
     schema: z.object({
       origin: z.string().describe("Departure city or airport (e.g. Tel Aviv)"),
       destination: z.string().describe("Arrival city or airport (e.g. Tokyo)"),
-      date: z.string().optional().describe("Travel date (e.g. 2025-03-15)"),
+      date: z.string().optional().describe("Travel date from user request (YYYY-MM-DD). Always pass when user mentions a date."),
     }),
   },
 );

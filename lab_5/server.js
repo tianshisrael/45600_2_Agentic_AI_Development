@@ -52,7 +52,11 @@ app.post("/api/chat", async (req, res) => {
         : JSON.stringify(lastMessage.content);
 
     const parsed = parseAgentJson(responseContent);
-    const response = await enrichTravelResponse(parsed, { departure, destination });
+    const response = await enrichTravelResponse(parsed, {
+      departure,
+      destination,
+      toolsUsed,
+    });
 
     res.json({
       success: true,
