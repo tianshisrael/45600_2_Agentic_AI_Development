@@ -1,0 +1,97 @@
+[
+  {
+    "company": "TechCorp",
+    "location": "San Francisco",
+    "departments": ["Engineering", "Marketing", "Sales"],
+    "employees": [
+      {
+        "name": "Jane Doe",
+        "role": "Developer",
+        "skills": ["JavaScript", "Python", "SQL"]
+      },
+      {
+        "name": "John Smith",
+        "role": "Designer",
+        "skills": ["Figma", "UI/UX"]
+      }
+    ]
+  },
+  {
+    "company": "GreenEnergy Ltd",
+    "location": "Austin",
+    "departments": ["Research", "Operations", "Legal"],
+    "employees": [
+      {
+        "name": "Maria Garcia",
+        "role": "Research Scientist",
+        "skills": ["Renewable Energy", "Data Analysis", "R"]
+      },
+      {
+        "name": "David Chen",
+        "role": "Operations Manager",
+        "skills": ["Project Management", "Supply Chain", "Excel"]
+      },
+      {
+        "name": "Emily Watson",
+        "role": "Legal Counsel",
+        "skills": ["Contract Law", "Compliance", "Negotiation"]
+      }
+    ]
+  },
+  {
+    "company": "HealthFirst",
+    "location": "Boston",
+    "departments": ["Clinical", "IT", "HR"],
+    "employees": [
+      {
+        "name": "Dr. Robert Kim",
+        "role": "Chief Medical Officer",
+        "skills": ["Internal Medicine", "Healthcare Policy", "Leadership"]
+      },
+      {
+        "name": "Sarah Patel",
+        "role": "Systems Analyst",
+        "skills": ["HL7", "SQL", "Epic EHR"]
+      }
+    ]
+  },
+  {
+    "company": "NovaRetail",
+    "location": "Seattle",
+    "departments": ["E-commerce", "Logistics", "Customer Support"],
+    "employees": [
+      {
+        "name": "Alex Turner",
+        "role": "Product Manager",
+        "skills": ["Agile", "User Research", "Roadmapping"]
+      },
+      {
+        "name": "Lisa Nguyen",
+        "role": "Warehouse Lead",
+        "skills": ["Inventory Management", "Forklift Certification", "WMS"]
+      },
+      {
+        "name": "James Wilson",
+        "role": "Support Specialist",
+        "skills": ["Zendesk", "Conflict Resolution", "CRM"]
+      }
+    ]
+  },
+  {
+    "company": "FinEdge",
+    "location": "New York",
+    "departments": ["Trading", "Risk", "Compliance"],
+    "employees": [
+      {
+        "name": "Michael Brooks",
+        "role": "Quantitative Analyst",
+        "skills": ["Python", "Statistics", "Machine Learning"]
+      },
+      {
+        "name": "Anna Kowalski",
+        "role": "Risk Manager",
+        "skills": ["VaR Modeling", "Regulatory Reporting", "Excel"]
+      }
+    ]
+  }
+]

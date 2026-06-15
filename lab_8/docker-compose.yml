@@ -1,0 +1,52 @@
+services:
+  #  server:
+  #     image: lab9-2-multi-agent-server:latest
+  #     build:
+  #       context: ./server
+  #       dockerfile: Dockerfile
+  #     container_name: lab9-2-server
+  #     environment:
+  #       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+  #       OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
+  #       PG_HOST: postgres
+  #       PG_PORT: 5432
+  #       PG_USER: sso_user
+  #       PG_PASSWORD: sso_pass
+  #       PG_DATABASE: sso_db
+  #       PORT: 3002
+  #     ports:
+  #       - "3002:3002"
+  #     depends_on:
+  #       - postgres
+  #     restart: unless-stopped
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: lab9-2-postgres
+    environment:
+      POSTGRES_USER: sso_user
+      POSTGRES_PASSWORD: sso_pass
+      POSTGRES_DB: sso_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - lab9_2_pg_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: lab9-2-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5051:80"
+    volumes:
+      - lab9_2_pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+volumes:
+  lab9_2_pg_data:
+  lab9_2_pgadmin_data:

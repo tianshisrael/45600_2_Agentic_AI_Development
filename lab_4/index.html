@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kids Story Teller</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --md-primary: #6750a4;
+        --md-on-primary: #ffffff;
+        --md-primary-container: #eaddff;
+        --md-on-primary-container: #21005d;
+        --md-surface: #fffbfe;
+        --md-surface-container: #f3edf7;
+        --md-surface-container-high: #ece6f0;
+        --md-on-surface: #1c1b1f;
+        --md-on-surface-variant: #49454f;
+        --md-outline: #79747e;
+        --md-error: #b3261e;
+        --md-error-container: #f9dedc;
+        --md-on-error-container: #410e0b;
+        --md-elevation-1: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15);
+        --md-elevation-2: 0 1px 2px rgba(0, 0, 0, 0.3), 0 2px 6px 2px rgba(0, 0, 0, 0.15);
+        --md-radius: 12px;
+        --md-radius-sm: 8px;
+        --font: "Roboto", system-ui, sans-serif;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: var(--font);
+        background: var(--md-surface-container);
+        color: var(--md-on-surface);
+        line-height: 1.5;
+      }
+
+      .app-bar {
+        background: var(--md-primary);
+        color: var(--md-on-primary);
+        padding: 1rem 1.5rem;
+        box-shadow: var(--md-elevation-2);
+      }
+
+      .app-bar h1 {
+        margin: 0;
+        font-size: 1.375rem;
+        font-weight: 500;
+        letter-spacing: 0.01em;
+      }
+
+      .app-bar p {
+        margin: 0.25rem 0 0;
+        font-size: 0.875rem;
+        opacity: 0.9;
+      }
+
+      main {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 1.5rem 1rem 3rem;
+      }
+
+      .card {
+        background: var(--md-surface);
+        border-radius: var(--md-radius);
+        box-shadow: var(--md-elevation-1);
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .card-title {
+        margin: 0 0 0.25rem;
+        font-size: 1.25rem;
+        font-weight: 500;
+      }
+
+      .card-subtitle {
+        margin: 0 0 1.25rem;
+        font-size: 0.875rem;
+        color: var(--md-on-surface-variant);
+      }
+
+      .field {
+        margin-bottom: 1.25rem;
+      }
+
+      .field label {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: var(--md-on-surface-variant);
+        margin-bottom: 0.35rem;
+        letter-spacing: 0.02em;
+      }
+
+      .field input,
+      .field select {
+        width: 100%;
+        font: inherit;
+        font-size: 1rem;
+        padding: 0.75rem 1rem;
+        border: 1px solid var(--md-outline);
+        border-radius: var(--md-radius-sm);
+        background: var(--md-surface);
+        color: var(--md-on-surface);
+        transition: border-color 0.15s, box-shadow 0.15s;
+      }
+
+      .field input:focus,
+      .field select:focus {
+        outline: none;
+        border-color: var(--md-primary);
+        box-shadow: 0 0 0 1px var(--md-primary);
+      }
+
+      .field input:disabled,
+      .field select:disabled {
+        opacity: 0.6;
+        background: var(--md-surface-container);
+      }
+
+      .field-hint {
+        margin-top: 0.35rem;
+        font-size: 0.75rem;
+        color: var(--md-on-surface-variant);
+      }
+
+      .field-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+
+      @media (max-width: 520px) {
+        .field-row {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .btn-contained {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        min-height: 2.5rem;
+        padding: 0 1.5rem;
+        border: none;
+        border-radius: 999px;
+        font: inherit;
+        font-size: 0.875rem;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        cursor: pointer;
+        background: var(--md-primary);
+        color: var(--md-on-primary);
+        box-shadow: var(--md-elevation-1);
+        transition: background 0.15s, box-shadow 0.15s, opacity 0.15s;
+      }
+
+      .btn-contained:hover:not(:disabled) {
+        box-shadow: var(--md-elevation-2);
+        filter: brightness(1.05);
+      }
+
+      .btn-contained:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+        box-shadow: none;
+      }
+
+      .alert {
+        display: none;
+        margin-top: 1rem;
+        padding: 0.75rem 1rem;
+        border-radius: var(--md-radius-sm);
+        font-size: 0.875rem;
+        background: var(--md-error-container);
+        color: var(--md-on-error-container);
+      }
+
+      .alert.visible {
+        display: block;
+      }
+
+      .alert ul {
+        margin: 0.5rem 0 0;
+        padding-left: 1.25rem;
+      }
+
+      .loader-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        background: rgba(28, 27, 31, 0.35);
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .loader-overlay.visible {
+        display: flex;
+      }
+
+      .loader-overlay p {
+        margin: 0;
+        color: var(--md-on-primary);
+        font-size: 0.9375rem;
+        font-weight: 500;
+      }
+
+      .progress-circular {
+        width: 48px;
+        height: 48px;
+        border: 4px solid rgba(255, 255, 255, 0.35);
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: spin 0.9s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .story-section {
+        display: none;
+      }
+
+      .story-section.visible {
+        display: block;
+      }
+
+      .chip-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.25rem 0.75rem;
+        border-radius: 8px;
+        font-size: 0.8125rem;
+        font-weight: 500;
+        background: var(--md-primary-container);
+        color: var(--md-on-primary-container);
+      }
+
+      .chip .chip-label {
+        opacity: 0.75;
+        font-weight: 400;
+      }
+
+      .story-body {
+        margin: 0;
+        padding: 1.25rem;
+        border-radius: var(--md-radius-sm);
+        background: var(--md-surface-container-high);
+        font-size: 1.0625rem;
+        line-height: 1.7;
+        white-space: pre-wrap;
+      }
+
+      .story-lines {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .story-lines li {
+        padding: 0.65rem 0;
+        border-bottom: 1px solid rgba(121, 116, 126, 0.25);
+      }
+
+      .story-lines li:last-child {
+        border-bottom: none;
+      }
+
+      .story-lines .line-num {
+        display: inline-block;
+        min-width: 1.5rem;
+        margin-right: 0.5rem;
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: var(--md-primary);
+      }
+
+      .chat-panel {
+        display: flex;
+        flex-direction: column;
+        min-height: 420px;
+      }
+
+      .chat-messages {
+        flex: 1;
+        min-height: 280px;
+        max-height: 480px;
+        overflow-y: auto;
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+        border-radius: var(--md-radius-sm);
+        background: var(--md-surface-container-high);
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .chat-messages:empty::before {
+        content: "Describe the story you want in your own words. Example: \"Write a scary 7-line story about a cat in an attic, be very creative.\"";
+        color: var(--md-on-surface-variant);
+        font-size: 0.875rem;
+        font-style: italic;
+        padding: 0.5rem;
+      }
+
+      .chat-bubble {
+        max-width: 92%;
+        padding: 0.75rem 1rem;
+        border-radius: 16px;
+        font-size: 0.9375rem;
+        line-height: 1.55;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+
+      .chat-bubble.user {
+        align-self: flex-end;
+        background: var(--md-primary);
+        color: var(--md-on-primary);
+        border-bottom-right-radius: 4px;
+      }
+
+      .chat-bubble.assistant {
+        align-self: flex-start;
+        background: var(--md-surface);
+        color: var(--md-on-surface);
+        border: 1px solid rgba(121, 116, 126, 0.25);
+        border-bottom-left-radius: 4px;
+      }
+
+      .chat-bubble.error {
+        align-self: flex-start;
+        background: var(--md-error-container);
+        color: var(--md-on-error-container);
+        border-bottom-left-radius: 4px;
+      }
+
+      .chat-bubble .extracted-meta {
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid rgba(121, 116, 126, 0.2);
+        font-size: 0.8125rem;
+        color: var(--md-on-surface-variant);
+      }
+
+      .chat-input-row {
+        display: flex;
+        gap: 0.75rem;
+        align-items: flex-end;
+      }
+
+      .chat-input-row textarea {
+        flex: 1;
+        font: inherit;
+        font-size: 1rem;
+        padding: 0.75rem 1rem;
+        border: 1px solid var(--md-outline);
+        border-radius: var(--md-radius-sm);
+        background: var(--md-surface);
+        color: var(--md-on-surface);
+        resize: vertical;
+        min-height: 3rem;
+        max-height: 8rem;
+        line-height: 1.45;
+      }
+
+      .chat-input-row textarea:focus {
+        outline: none;
+        border-color: var(--md-primary);
+        box-shadow: 0 0 0 1px var(--md-primary);
+      }
+
+      .chat-input-row textarea:disabled {
+        opacity: 0.6;
+        background: var(--md-surface-container);
+      }
+
+      .btn-contained.btn-send {
+        flex-shrink: 0;
+        min-width: 5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="app-bar">
+      <h1>Kids Story Teller</h1>
+      <p>Launch the agent and generate a short story via POST /api/story or chat via POST /api/story/chat</p>
+    </header>
+
+    <div class="loader-overlay" id="loader" aria-hidden="true" aria-live="polite">
+      <div class="progress-circular" role="progressbar" aria-label="Generating story"></div>
+      <p>Writing your story…</p>
+    </div>
+
+    <main>
+      <section class="card" aria-labelledby="form-heading">
+        <h2 class="card-title" id="form-heading">New story</h2>
+        <p class="card-subtitle">Subject, mood, and line count are sent to the story agent.</p>
+
+        <form id="story-form" novalidate>
+          <div class="field">
+            <label for="subject">Subject</label>
+            <input
+              id="subject"
+              name="subject"
+              type="text"
+              required
+              maxlength="50"
+              placeholder="e.g. a friendly dragon"
+              autocomplete="off"
+            />
+            <p class="field-hint">Required · max 50 characters</p>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="mood">Mood</label>
+              <select id="mood" name="mood" required>
+                <option value="happy">Happy</option>
+                <option value="scary">Scary</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="linescount">Line count</label>
+              <input
+                id="linescount"
+                name="linescount"
+                type="number"
+                min="1"
+                max="10"
+                step="1"
+                value="5"
+                required
+              />
+              <p class="field-hint">Integer from 1 to 10 (API field: lines)</p>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-contained" id="submit-btn">
+            Generate story
+          </button>
+
+          <div class="alert" id="error-alert" role="alert"></div>
+        </form>
+      </section>
+
+      <section class="card story-section" id="result-section" aria-labelledby="result-heading">
+        <h2 class="card-title" id="result-heading">Your story</h2>
+        <div class="chip-row" id="metadata-chips"></div>
+        <div id="story-content"></div>
+      </section>
+
+      <section class="card" aria-labelledby="chat-heading">
+        <h2 class="card-title" id="chat-heading">Story chatbot</h2>
+        <p class="card-subtitle">
+          Describe your story in free text — the extractor agent picks subject, mood, length, and creativity, then writes the story.
+        </p>
+
+        <div class="chat-panel">
+          <div class="chat-messages" id="chat-messages" role="log" aria-live="polite" aria-relevant="additions"></div>
+
+          <form id="chat-form" class="chat-input-row" novalidate>
+            <textarea
+              id="chat-input"
+              name="text"
+              rows="2"
+              placeholder="e.g. A happy short story about a bunny, 3 lines, medium creativity"
+              aria-label="Story description"
+              maxlength="2000"
+            ></textarea>
+            <button type="submit" class="btn-contained btn-send" id="chat-send-btn">Send</button>
+          </form>
+
+          <div class="alert" id="chat-error-alert" role="alert"></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.7.9/dist/axios.min.js"></script>
+    <script>
+      const MAX_SUBJECT_LENGTH = 50;
+      const MIN_LINES = 1;
+      const MAX_LINES = 10;
+      const MOODS = ["happy", "scary"];
+
+      const storyClient = axios.create({
+        baseURL: "",
+        headers: { "Content-Type": "application/json" },
+        timeout: 120_000,
+      });
+
+      /**
+       * POST /api/story — mirrors lab_3 integration test payload shape.
+       * @param {{ subject: string, mood: string, lines: number }} payload
+       * @returns {Promise<{ story: string, subject: string, title: string, mood: string, lines: number, model: string }>}
+       */
+      async function generateStory({ subject, mood, lines }) {
+        const { data } = await storyClient.post("/api/story", {
+          subject,
+          mood,
+          lines,
+        });
+        return data;
+      }
+
+      /**
+       * POST /api/story/chat — free text → extractor agent → story agent.
+       * @param {{ text: string }} payload
+       */
+      async function generateStoryFromChat({ text }) {
+        const { data } = await storyClient.post("/api/story/chat", { text });
+        return data;
+      }
+
+      function formatApiError(err) {
+        const status = err.response?.status;
+        const body = err.response?.data;
+        if (status === 400 && body?.details?.length) {
+          const items = body.details.map((d) => `${d.path}: ${d.message}`);
+          return { message: body.error || "Validation failed.", details: items };
+        }
+        const message =
+          (typeof body?.error === "string" && body.error) ||
+          (typeof body === "string" && body) ||
+          err.message ||
+          "Request failed.";
+        return { message, details: null };
+      }
+
+      function validateForm({ subject, mood, linescount }) {
+        const trimmed = subject.trim();
+        if (!trimmed) {
+          return "Please enter a story subject.";
+        }
+        if (trimmed.length > MAX_SUBJECT_LENGTH) {
+          return `Subject must be at most ${MAX_SUBJECT_LENGTH} characters.`;
+        }
+        if (!MOODS.includes(mood)) {
+          return `Mood must be one of: ${MOODS.join(", ")}.`;
+        }
+        const lines = Number(linescount);
+        if (!Number.isInteger(lines) || lines < MIN_LINES || lines > MAX_LINES) {
+          return `Line count must be an integer from ${MIN_LINES} to ${MAX_LINES}.`;
+        }
+        return null;
+      }
+
+      function setLoading(active) {
+        const loader = document.getElementById("loader");
+        const form = document.getElementById("story-form");
+        loader.classList.toggle("visible", active);
+        loader.setAttribute("aria-hidden", String(!active));
+        form.querySelectorAll("input, select, button").forEach((el) => {
+          el.disabled = active;
+        });
+      }
+
+      function showError({ message, details }) {
+        const alert = document.getElementById("error-alert");
+        let html = escapeHtml(message);
+        if (details?.length) {
+          html += `<ul>${details.map((d) => `<li>${escapeHtml(d)}</li>`).join("")}</ul>`;
+        }
+        alert.innerHTML = html;
+        alert.classList.add("visible");
+      }
+
+      function clearError() {
+        const alert = document.getElementById("error-alert");
+        alert.classList.remove("visible");
+        alert.textContent = "";
+      }
+
+      function escapeHtml(text) {
+        const div = document.createElement("div");
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      function renderStoryResult(data) {
+        const section = document.getElementById("result-section");
+        const chips = document.getElementById("metadata-chips");
+        const content = document.getElementById("story-content");
+
+        const meta = [
+          { label: "Subject", value: data.subject },
+          { label: "Mood", value: data.mood },
+          { label: "Lines", value: String(data.lines) },
+          { label: "Model", value: data.model },
+        ];
+        if (data.creativity !== undefined) {
+          meta.splice(3, 0, { label: "Creativity", value: String(data.creativity) });
+        }
+        if (data.title?.trim()) {
+          meta.unshift({ label: "Title", value: data.title });
+        }
+
+        chips.innerHTML = meta
+          .map(
+            (m) =>
+              `<span class="chip"><span class="chip-label">${escapeHtml(m.label)}</span> ${escapeHtml(m.value)}</span>`,
+          )
+          .join("");
+
+        const storyLines = data.story
+          .trim()
+          .split(/\n+/)
+          .map((line) => line.trim())
+          .filter(Boolean);
+
+        if (storyLines.length > 1) {
+          content.innerHTML = `<ol class="story-lines">${storyLines
+            .map(
+              (line, i) =>
+                `<li><span class="line-num">${i + 1}</span>${escapeHtml(line)}</li>`,
+            )
+            .join("")}</ol>`;
+        } else {
+          content.innerHTML = `<p class="story-body">${escapeHtml(data.story.trim())}</p>`;
+        }
+
+        section.classList.add("visible");
+        section.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+
+      document.getElementById("story-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        clearError();
+
+        const subject = document.getElementById("subject").value;
+        const mood = document.getElementById("mood").value;
+        const linescount = document.getElementById("linescount").value;
+
+        const validationError = validateForm({ subject, mood, linescount });
+        if (validationError) {
+          showError({ message: validationError, details: null });
+          return;
+        }
+
+        setLoading(true);
+        try {
+          const result = await generateStory({
+            subject: subject.trim(),
+            mood,
+            lines: Number(linescount),
+          });
+          renderStoryResult(result);
+        } catch (err) {
+          showError(formatApiError(err));
+        } finally {
+          setLoading(false);
+        }
+      });
+
+      function appendChatBubble(text, role) {
+        const container = document.getElementById("chat-messages");
+        const bubble = document.createElement("div");
+        bubble.className = `chat-bubble ${role}`;
+        bubble.textContent = text;
+        container.appendChild(bubble);
+        container.scrollTop = container.scrollHeight;
+        return bubble;
+      }
+
+      function appendChatStoryBubble(data) {
+        const container = document.getElementById("chat-messages");
+        const bubble = document.createElement("div");
+        bubble.className = "chat-bubble assistant";
+
+        const extracted = data.extracted ?? {
+          subject: data.subject,
+          mood: data.mood,
+          lines: data.lines,
+          creativity: data.creativity,
+          title: data.title,
+        };
+
+        const metaParts = [
+          `Subject: ${extracted.subject}`,
+          `Mood: ${extracted.mood}`,
+          `Lines: ${extracted.lines}`,
+          `Creativity: ${extracted.creativity ?? data.creativity ?? 0.5}`,
+        ];
+        if (extracted.title?.trim()) {
+          metaParts.push(`Title: ${extracted.title}`);
+        }
+
+        bubble.innerHTML = `<div class="extracted-meta">${escapeHtml(metaParts.join(" · "))}</div>${escapeHtml(data.story.trim())}`;
+        container.appendChild(bubble);
+        container.scrollTop = container.scrollHeight;
+      }
+
+      function setChatLoading(active) {
+        const form = document.getElementById("chat-form");
+        const loader = document.getElementById("loader");
+        loader.classList.toggle("visible", active);
+        loader.setAttribute("aria-hidden", String(!active));
+        form.querySelectorAll("textarea, button").forEach((el) => {
+          el.disabled = active;
+        });
+      }
+
+      function showChatError(message) {
+        const alert = document.getElementById("chat-error-alert");
+        alert.textContent = message;
+        alert.classList.add("visible");
+      }
+
+      function clearChatError() {
+        const alert = document.getElementById("chat-error-alert");
+        alert.classList.remove("visible");
+        alert.textContent = "";
+      }
+
+      document.getElementById("chat-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        clearChatError();
+
+        const input = document.getElementById("chat-input");
+        const text = input.value.trim();
+        if (!text) {
+          showChatError("Please describe the story you want.");
+          return;
+        }
+
+        appendChatBubble(text, "user");
+        input.value = "";
+
+        setChatLoading(true);
+        try {
+          const result = await generateStoryFromChat({ text });
+          appendChatStoryBubble(result);
+        } catch (err) {
+          const { message } = formatApiError(err);
+          appendChatBubble(message, "error");
+          showChatError(message);
+        } finally {
+          setChatLoading(false);
+        }
+      });
+
+      document.getElementById("chat-input").addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          document.getElementById("chat-form").requestSubmit();
+        }
+      });
+    </script>
+  </body>
+</html>

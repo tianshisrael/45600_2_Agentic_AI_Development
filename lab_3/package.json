@@ -1,0 +1,30 @@
+{
+  "name": "kids-story-agent-lab-3",
+  "version": "1.0.0",
+  "description": "LangChain agent that writes short happy or scary kids stories via OpenRouter",
+  "type": "module",
+  "scripts": {
+    "agent": "node agent.js",
+    "server": "node server.js",
+    "start": "node agent.js",
+    "dev": "nodemon server.js",
+    "test": "mocha test/**/*.test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@langchain/core": "^1.1.48",
+    "@langchain/openrouter": "^0.3.0",
+    "axios": "^1.17.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.1.0",
+    "langchain": "^1.4.2",
+    "nodemon": "^3.1.14",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "mocha": "^11.7.5"
+  }
+}

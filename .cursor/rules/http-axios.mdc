@@ -1,0 +1,65 @@
+---
+description: Use Axios for all outbound HTTP requests
+alwaysApply: true
+---
+
+# HTTP client: Axios only
+
+When implementing outbound HTTP calls (Client browser requests, API proxies, webhooks, third-party integrations), **always use [Axios](https://axios-http.com/)**.
+
+Do **not** use:
+
+- `fetch` / `globalThis.fetch`
+- `XMLHttpRequest` / `xhr`
+- `node-fetch`, `got`, `undici`, `superagent`, or other HTTP clients
+
+## Setup
+
+Add Axios if the package is not already installed:
+
+```bash
+npm install axios
+```
+
+Use ESM import style consistent with the file:
+
+```javascript
+import axios from "axios";
+```
+
+## Examples
+
+```javascript
+// ❌ BAD — fetch
+const response = await fetch(url);
+const data = await response.json();
+
+// ✅ GOOD — Axios
+const { data } = await axios.get(url);
+```
+
+```javascript
+// ❌ BAD — manual status checks with fetch
+const response = await fetch(url);
+if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+// ✅ GOOD — Axios throws on 4xx/5xx; handle with try/catch
+try {
+  const { data } = await axios.get(url);
+  res.json(data);
+} catch (err) {
+  const status = err.response?.status ?? 502;
+  const message = err.response?.data ?? err.message;
+  res.status(status).json({ error: message });
+}
+```
+
+POST with JSON body:
+
+```javascript
+const { data } = await axios.post(url, { key: "value" });
+```
+
+## Refactoring existing code
+
+If you touch a file that still uses `fetch` for HTTP, replace it with Axios in the same change.

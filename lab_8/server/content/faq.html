@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head><title>FAQ &amp; Documentation</title></head>
+<body>
+<h1>FAQ and general documentation</h1>
+
+<section>
+<h2>What is SSO?</h2>
+<p>Single Sign-On (SSO) lets users log in once and access multiple applications without entering credentials again. Our system uses a central identity provider.</p>
+</section>
+
+<section>
+<h2>How does login work?</h2>
+<p>Users authenticate via the identity provider. After success, they receive a session token. Permissions are loaded from the users and permissions tables and cached for the session.</p>
+</section>
+
+<section>
+<h2>Project guidelines</h2>
+<p>Use read-only database access for reporting. Only SELECT queries are allowed. For documentation questions, refer to this FAQ and the schema documentation.</p>
+</section>
+
+<section>
+<h2>What are permissions?</h2>
+<p>Permissions are named access rights (e.g. "admin", "view_reports"). They are linked to users via the users_permissions table. The audit_login table records login events.</p>
+</section>
+</body>
+</html>

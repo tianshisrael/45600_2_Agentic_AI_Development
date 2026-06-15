@@ -1,0 +1,28 @@
+{
+  "name": "lab9-2-multi-agent",
+  "version": "1.0.0",
+  "description": "Multi-agent server: router with HTML RAG and SQL agent as tools",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "index-schema": "node scripts/index-schema.js",
+    "index-html": "node scripts/index-html.js",
+    "load-schema": "node scripts/load-schema.js",
+    "load-data": "node scripts/load-data.js",
+    "init-db": "node scripts/load-schema.js && node scripts/load-data.js"
+  },
+  "dependencies": {
+    "lab9-2-multi-agent-client": "^1.2.0",
+    "@modelcontextprotocol/sdk": "^1.26.0",
+    "@langchain/community": "^0.3.0",
+    "@langchain/core": "^0.3.0",
+    "@langchain/openai": "^0.3.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "pg": "^8.13.0",
+    "langchain": "^0.3.0",
+    "uuid": "^10.0.0",
+    "cors": "^2.8.5",
+    "zod": "^3.23.0"
+  }
+}
