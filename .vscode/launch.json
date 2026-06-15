@@ -1,0 +1,34 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Lab 3: Server (server.js)",
+      "cwd": "${workspaceFolder}/lab_3",
+      "program": "${workspaceFolder}/lab_3/server.js",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Lab 3: Agent CLI",
+      "cwd": "${workspaceFolder}/lab_3",
+      "program": "${workspaceFolder}/lab_3/agent.js",
+      "args": ["--mood", "happy", "--lines", "5", "a friendly dragon"],
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Lab 3: Mocha tests",
+      "cwd": "${workspaceFolder}/lab_3",
+      "program": "${workspaceFolder}/lab_3/node_modules/mocha/bin/mocha.js",
+      "args": ["test/**/*.test.js"],
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
+    }
+  ]
+}

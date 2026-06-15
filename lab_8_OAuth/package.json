@@ -1,0 +1,20 @@
+{
+  "name": "lab-8-oauth-rag",
+  "version": "1.0.0",
+  "description": "OAuth documentation Q&A with decoupled RAG ingestion (Node.js + LangChain)",
+  "type": "module",
+  "scripts": {
+    "start": "node scripts/run-qa.js",
+    "run:qa": "node scripts/run-qa.js",
+    "run:rag-test": "node scripts/rag-process.js"
+  },
+  "keywords": ["rag", "oauth", "langchain", "pdf"],
+  "license": "ISC",
+  "dependencies": {
+    "@langchain/core": "^0.3.0",
+    "@langchain/openai": "^0.3.0",
+    "dotenv": "^16.4.5",
+    "langchain": "^0.3.0",
+    "pdf-parse": "^1.1.1"
+  }
+}

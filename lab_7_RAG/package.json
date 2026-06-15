@@ -1,0 +1,22 @@
+{
+  "name": "lab-4-rag-construction-pricing",
+  "version": "1.0.0",
+  "description": "RAG pipeline for construction pricing with image analysis (Node.js + LangChain)",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "run:agent": "node index.js",
+    "run:rag-only": "node scripts/run-rag-only.js",
+    "test": "node --test test/"
+  },
+  "keywords": ["rag", "langchain", "construction", "pricing", "vision"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@langchain/core": "^0.3.0",
+    "@langchain/openai": "^0.3.0",
+    "langchain": "^0.3.0",
+    "dotenv": "^16.4.5"
+  }
+}

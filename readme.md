@@ -10,6 +10,10 @@ galamouyal88@gmail.com
 
 - https://gamma.app/docs/MCP-vs-Skills-ajmej0v6tyu3yde
 
+# Files:
+
+https://drive.google.com/drive/folders/1XNZO0sBgUooahIMmYHMSHU2nVbmWWMGT?usp=sharing
+
 ## Prerequisites
 
 Install the following tools before working on this project.
@@ -152,3 +156,24 @@ OPENROUTER_MODEL=openrouter:gpt-5.4
   ## Homework
   1. try to reduce the number of iterations when calling the tool - convert currency
   2. Extend capabilities to show the flight number + flight hour
+
+
+
+# 11/6/2026
+1. First - Pull Lab_7
+2. Install Dependencies
+3. Plant the relevant .env
+4. run lab_7_RAG/scripts/run-pricing-qa.js , using node [File]
+
+# Ex_1
+- Create A new Folder Project with the following structure
+- /agent
+  /scripts
+  /data
+
+- inside agent folder create agent.js which will answer question about the OAuth documenation guide
+- inside scritps create rag-process which will index the file hw_materials/the-modern-guide-to-oauth.pdf as in vector memory
+- the rag process will occure on every request inside the memory
+- write the code in a way that the RAG injestion process will not be coupled to the request - QandA
+- use a what ever model you prefered.
+- /data will contain the PDF
