@@ -1,4 +1,4 @@
-# Lab 9.2: Multi-Agent — Router with Agents as Tools
+# Lab 8: Multi-Agent — Router with Agents as Tools
 
 Refactor of Lab 9: the **router uses each agent as a tool**. The LLM chooses which tool to call (HTML RAG or SQL agent) instead of returning a route string that the server dispatches with `if/else`.
 
