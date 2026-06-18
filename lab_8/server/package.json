@@ -12,7 +12,6 @@
     "init-db": "node scripts/load-schema.js && node scripts/load-data.js"
   },
   "dependencies": {
-    "lab9-2-multi-agent-client": "^1.2.0",
     "@modelcontextprotocol/sdk": "^1.26.0",
     "@langchain/community": "^0.3.0",
     "@langchain/core": "^0.3.0",
